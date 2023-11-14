@@ -12,8 +12,12 @@ if (process.platform !== "win32") {
       fs.writeFileSync(tmpFile, 'console.log("hello")\n');
 
       // Run the script using the file descriptor.
+      //
       // TODO(SeedyROM): Probably don't use bash for this???
       // TODO(SeedyROM): Need to figure out why the symlink isn't being followed to the pipe
+      //
+      // NOTE(SeedyROM): NodeJS issue with a similar problem:
+      // https://github.com/nodejs/node/issues/18255
       const p = spawnSync(["bash", "-c", `${bunExe()} <(cat ${tmpFile})`], {
         stderr: "inherit",
         env: {
